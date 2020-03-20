@@ -11,7 +11,7 @@ public class Main {
     final char botPrefix = '*';
 
     public static void main(String[] args) throws LoginException {
-        JDABuilder.createDefault("NTgxODIwNzk0NzU0MTcwOTAw.XnTkog.x4QvV3jW4CCKdiftN5ePNeKiKlo")
+        JDABuilder.createDefault("NTgxODIwNzk0NzU0MTcwOTAw.XnULvg.8Gu2CezidZXNkcsGU_loz8Ix3iw")
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new Main())
                 .build();
