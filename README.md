@@ -37,17 +37,11 @@ The bot also includes fun minigames and a pirate ecosystem for team members to h
 * Inventory
 * Pirate gold coins
 * Automatic upload of .java files
-
-* Fighting system
 * WPI documentation puller and examples
 * Game manual links
-
-* Fishing minigame
-* Hunting minigame
-* Pirate minigame
 * Treasure finding minigame
 * Ship building system
-
+* Ship raiding system
 
 
 ### Commands
