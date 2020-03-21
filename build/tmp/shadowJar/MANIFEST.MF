@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: Main
+Class-Path: gradle-api-5.2.1.jar groovy-all-1.0-2.5.4.jar gradle-install
+ ation-beacon-5.2.1.jar
+

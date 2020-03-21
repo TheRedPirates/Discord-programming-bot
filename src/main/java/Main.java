@@ -20,6 +20,8 @@ public class Main {
                 .build();
 
 
+        DatabaseAccess dataAccess = new DatabaseAccess();
+
     }
 
     @SubscribeEvent
@@ -57,6 +59,9 @@ public class Main {
                 case "if":
                     Commands.syntaxIf(event);
             }
+        }
+        else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "roullete")){
+            Commands.Roullete(event,cmd);
         }
 
     }
