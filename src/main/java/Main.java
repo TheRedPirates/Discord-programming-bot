@@ -2,8 +2,6 @@ import javax.security.auth.login.LoginException;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
@@ -20,28 +18,46 @@ public class Main {
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new Main())
                 .build();
-        
-        client.getPresence().setActivity(Activity.playing("with the pirates 🛠️☠️"));
 
-        
+
     }
 
     @SubscribeEvent
     public void onMessageReceived(MessageReceivedEvent event)
     {
-        System.out.println(event.getMessage().getContentDisplay());
-        MessageChannel channel = event.getChannel();
-        String[] args = event.getMessage().getContentRaw().split(" ");
-        if (!event.getAuthor().isBot() && event.getMessage().getContentDisplay().startsWith(botPrefix + "hi")) { 
-            channel.sendMessage("Hello!").queue();
+        String cmd = event.getMessage().getContentDisplay();
+        String Author = event.getAuthor().getAsMention();
+        if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "help")){
+            Commands.Help(event);
         }
-        else if (!event.getAuthor().isBot() && event.getMessage().getContentDisplay().startsWith(botPrefix + "coinflip")){
-            Commands.coinflipStart(event,args);
+        //Coinflip started
+        else if (!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "coinflip")){
+            Commands.coinflipStart(event);
         }
-        else if (event.getAuthor().getAsTag().equals(Commands.coinflipOppTag) && args[0].equalsIgnoreCase("accept")){
-            
-            channel.sendMessage(Commands.coinflipGame(event,args) + " Is the winner!!!!!!").queue();
+        //Coinflip accepted
+        else if (!event.getAuthor().isBot() && Author.equals(Commands.coinflipOppTag) && cmd.startsWith("accept")){
+            Commands.coinflipGame(event);
         }
+        //File upload
+        else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "upload")){
+            Commands.fileUpload(event);
+        }
+        //Manual link
+        else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "manual")){
+            Commands.manualLink(event);
+        }
+        else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "syntax")){
+            switch(cmd.split(" ")[1]){
+                case "for":
+                    Commands.syntaxFor(event);
+                    break;
+                case "while":
+                    Commands.syntaxWhile(event);
+                    break;
+                case "if":
+                    Commands.syntaxIf(event);
+            }
+        }
+
     }
-    
 }
