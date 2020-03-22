@@ -37,26 +37,31 @@ public class Main {
             Commands.coinflipStart(event);
         }
         //Coinflip accepted
-        else if (!event.getAuthor().isBot() && Author.equals(Commands.coinflipOppTag) && cmd.startsWith("accept")){
-            Commands.coinflipGame(event);
+        else if (!event.getAuthor().isBot() &&  cmd.startsWith(botPrefix+"accept")){
+            for (int i = 1; i < Commands.russianTag.length; i++) {
+                if(Author.equals(Commands.russianTag[i]))
+                    Commands.russianRoulleteAccept(event, i-1);
+            }
+            if(Author.equals(Commands.coinflipOppTag))
+                Commands.coinflipGame(event);
         }
-        else if (!event.getAuthor().isBot() && Author.equals(Commands.coinflipOppTag) && cmd.startsWith("decline")){
-            Commands.coinflipDecline(event);
+        else if (!event.getAuthor().isBot() && cmd.startsWith(botPrefix+"decline")){
+            
         }
         else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "russianRoullete")){
             Commands.russianRoulleteStart(event);
         }
-        else if (!event.getAuthor().isBot() && Author.equals(Commands.russianOppTag) && cmd.startsWith("accept")){
-            Commands.russianRoulleteAccept(event);
+        else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix+"spin")){
+            for (int i = 0; i < Commands.russianTag.length; i++) {
+                if(Author.equals(Commands.russianTag[i]))
+                    Commands.russianRoulleteSpin(event, i);
+            }
         }
-        else if (!event.getAuthor().isBot() && Author.equals(Commands.russianOppTag) && cmd.startsWith("decline")){
-            Commands.coinflipDecline(event);
-        }
-        else if(!event.getAuthor().isBot() && (Author.equals(Commands.russianOppTag) || Author.equals(Commands.russianOppTag)) && cmd.startsWith(botPrefix+"spin")){
-            Commands.russianRoulleteSpin(event);
-        }
-        else if(!event.getAuthor().isBot() && (Author.equals(Commands.russianOppTag) || Author.equals(Commands.russianOppTag)) && cmd.startsWith(botPrefix+"shot")){
-            Commands.russianRoulleteShot(event);
+        else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix+"shot")){
+            for (int i = 0; i < Commands.russianTag.length; i++) {
+                if(Author.equals(Commands.russianTag[i]))
+                    Commands.russianRoulleteShot(event, i);
+            }
         }
         //File upload
         else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "upload")){
