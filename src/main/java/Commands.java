@@ -1,18 +1,18 @@
-import java.util.HashMap;
-import java.util.Map;
-
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class Commands{
-    Map<Integer, String> map = new HashMap<Integer, String>();
     public static String coinflipOppTag;
     public static String coinflipSndTag;
+    public static String russianOppTag;
+    public static String russianSndTag;
+    public static boolean russianAccepted;
+    public static int bulletInChamber;
     public static int coinflipCount = 0;
     public static void coinflipStart(MessageReceivedEvent event){
         coinflipOppTag = event.getMessage().getMentionedUsers().get(0).getAsMention();
         coinflipSndTag = event.getAuthor().getAsMention();
-        event.getChannel().sendMessage("The user: "+coinflipSndTag+" has challenged user:"+coinflipOppTag+ " to accept write 'accept'").queue();
+        event.getChannel().sendMessage("The user: "+coinflipSndTag+" has challenged user:"+coinflipOppTag+ " for a coinflip game, to accept write 'accept'").queue();
     }
     public static void coinflipGame(MessageReceivedEvent event) {
         if(Math.random()>0.5) 
@@ -20,6 +20,52 @@ public class Commands{
         else
             event.getChannel().sendMessage(coinflipSndTag +" Is the winner!!!!!").queue();
         
+    }
+    public static void coinflipDecline(MessageReceivedEvent event) {
+        event.getChannel().sendMessage(coinflipOppTag+" has declined the coinflip invitation").queue();
+        coinflipOppTag = "";
+        coinflipSndTag = "";
+    }
+    public static void russianRoulleteStart(MessageReceivedEvent event){
+        russianOppTag = event.getMessage().getMentionedUsers().get(0).getAsMention();
+        russianSndTag = event.getAuthor().getAsMention();
+        event.getChannel().sendMessage("The user: "+russianSndTag+" has challanged the user:"+russianOppTag+ " for a russian roullete game, to accept write 'accept'").queue();
+    }
+    public static void russianRoulleteAccept(MessageReceivedEvent event){
+        russianAccepted = true;
+        event.getChannel().sendMessage("You accepted the invitation successfully").queue();
+    }
+    public static void russianRoulleteSpin(MessageReceivedEvent event){
+        if(russianAccepted == false){
+            event.getChannel().sendMessage("There are no active games").queue();
+            return;
+        }
+        if(bulletInChamber != 0){
+            event.getChannel().sendMessage("You already spun the chamber").queue();
+            return;
+        }
+        bulletInChamber = (int) (Math.random() * 5 + 1);
+        event.getChannel().sendMessage("You spinned the gun successfully").queue();
+    }
+    public static void russianRoulleteShot(MessageReceivedEvent event){
+        if(russianAccepted == false){
+            event.getChannel().sendMessage("There are no active games").queue();
+            return;
+        }
+        if(bulletInChamber == 0){
+            if(event.getAuthor().getAsMention().equals(russianSndTag)){
+                event.getChannel().sendMessage(event.getAuthor().getAsMention() + " Just shot himself, " + russianOppTag+" Is the winner!").queue();
+                russianAccepted = false;
+                return;
+            }
+            else{
+                event.getChannel().sendMessage(event.getAuthor().getAsMention() + " Just shot himself, " + russianSndTag+" Is the winner!").queue();
+                russianAccepted = false;
+                return;
+            }
+        }
+        event.getChannel().sendMessage("You tried to shot but there was no bullet in the chamber, try again").queue();
+        bulletInChamber--;
     }
     public static void fileUpload(MessageReceivedEvent event){
         Message.Attachment attachment =  event.getMessage().getAttachments().get(0);
@@ -46,6 +92,15 @@ public class Commands{
     }
     public static void syntaxIf(MessageReceivedEvent event){
         event.getChannel().sendMessage("```java\n if(expression){ \n\n\n //Activates only if expression is true \n\n\n } \n ```").queue();
+    }
+    public static void syntaxSwitch(MessageReceivedEvent event){
+        event.getChannel().sendMessage("```java\n int n;\n switch(n){ \n    case x: \n\n break; \n    case y: \n\n break; \n } \n ```").queue();
+    }
+    public static void syntaxFunction(MessageReceivedEvent event){
+        event.getChannel().sendMessage("```java\n public static void methodName() { \n\n\n //code to run \n\n\n } \n ```").queue();
+    }
+    public static void syntaxClass(MessageReceivedEvent event){
+        event.getChannel().sendMessage("```java\n public class className{ \n\n\n\n } \n ```").queue();
     }
 	public static void Roullete(MessageReceivedEvent event, String cmd) {
         String message[] = cmd.split(" ");
@@ -88,4 +143,5 @@ public class Commands{
         }
         
 	}
+	
 }

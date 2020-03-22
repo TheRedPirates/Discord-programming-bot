@@ -40,6 +40,24 @@ public class Main {
         else if (!event.getAuthor().isBot() && Author.equals(Commands.coinflipOppTag) && cmd.startsWith("accept")){
             Commands.coinflipGame(event);
         }
+        else if (!event.getAuthor().isBot() && Author.equals(Commands.coinflipOppTag) && cmd.startsWith("decline")){
+            Commands.coinflipDecline(event);
+        }
+        else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "russianRoullete")){
+            Commands.russianRoulleteStart(event);
+        }
+        else if (!event.getAuthor().isBot() && Author.equals(Commands.russianOppTag) && cmd.startsWith("accept")){
+            Commands.russianRoulleteAccept(event);
+        }
+        else if (!event.getAuthor().isBot() && Author.equals(Commands.russianOppTag) && cmd.startsWith("decline")){
+            Commands.coinflipDecline(event);
+        }
+        else if(!event.getAuthor().isBot() && (Author.equals(Commands.russianOppTag) || Author.equals(Commands.russianOppTag)) && cmd.startsWith(botPrefix+"spin")){
+            Commands.russianRoulleteSpin(event);
+        }
+        else if(!event.getAuthor().isBot() && (Author.equals(Commands.russianOppTag) || Author.equals(Commands.russianOppTag)) && cmd.startsWith(botPrefix+"shot")){
+            Commands.russianRoulleteShot(event);
+        }
         //File upload
         else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "upload")){
             Commands.fileUpload(event);
@@ -58,6 +76,15 @@ public class Main {
                     break;
                 case "if":
                     Commands.syntaxIf(event);
+                    break;
+                case "switch":
+                    Commands.syntaxSwitch(event);
+                    break;
+                case "func":
+                    Commands.syntaxFunction(event);
+                    break;
+                case "class":
+                    Commands.syntaxClass(event);
             }
         }
         else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "roullete")){
