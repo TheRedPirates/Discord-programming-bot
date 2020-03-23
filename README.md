@@ -33,6 +33,7 @@ The bot also includes fun minigames and a pirate ecosystem for team members to h
 * Treasure finding minigame
 * Ship building system
 * Ship raiding system
+* TBA
 
 ## Commands
 
@@ -64,3 +65,5 @@ The bot also includes fun minigames and a pirate ecosystem for team members to h
 * russianRoulette [ USERS ] [ Optional : BET ] - Challenges a user to a russian roulette minigame
   * spin - Spins the gun cylinder
   * fire - Presses on the trigger
+* team [TEAM_NUMBER] - Prints info about a FRC team
+* team [TEAM_NUMBER] awards - Prints a list of all awards the team has
