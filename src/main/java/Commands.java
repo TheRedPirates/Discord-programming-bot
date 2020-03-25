@@ -93,10 +93,22 @@ public class Commands{
                             russianRoulleteAlive[i] = false;
                     }
                     event.getChannel().sendMessage("Remaining players are: ").queue();
-                    for (int i = 0; i < russianRoulleteAlive.length; i++) {
-                        if(russianRoulleteAlive[i] == true)
-                            event.getChannel().sendMessage(russianTag[i]).queue();;
-                    }
+                     for (int i = 0; i < russianRoulleteAlive.length; i++) {
+                        if(russianRoulleteAlive[i] == true){
+                            event.getChannel().sendMessage(russianTag[i]).queue();
+                            if(aliveCount == 1) {
+                                event.getChannel().sendMessage(russianTag[i]+" Is the winner").queue();
+                                for (int j = 0; j < russianTag.length; j++) {
+                                    russianTag[i] = "";
+                                }
+
+                                for (int k = 0; k < russianRoulleteAccept.length; k++) {
+                                    russianRoulleteAccept[i] = false;
+                                }
+                                return;
+                            }
+                        }
+                     }
                     Queue++;
                     if(russianRoulleteAlive[Queue-1]==false)
                         Queue++;

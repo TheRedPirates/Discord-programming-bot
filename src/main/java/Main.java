@@ -18,10 +18,6 @@ public class Main {
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new Main())
                 .build();
-
-
-        DatabaseAccess dataAccess = new DatabaseAccess();
-
     }
 
     @SubscribeEvent
