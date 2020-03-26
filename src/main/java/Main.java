@@ -2,11 +2,15 @@ import javax.security.auth.login.LoginException;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
+import Games.russianRoulleteGame;
+import Games.coinflipCommands;
 
 public class Main {
+    public russianRoulleteGame roulleteGame;
     public static final char botPrefix = '*';
     public static JDA client;
     public static void main(String[] args) throws LoginException {
@@ -18,10 +22,13 @@ public class Main {
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new Main())
                 .build();
+                
+        client.getPresence().setActivity(Activity.playing("with the pirates☠️🛠️"));
 
+        System.out.println(SyntaxCommands.printFunction());
+        System.out.println(SyntaxCommands.printClass());
 
         DatabaseAccess dataAccess = new DatabaseAccess();
-
     }
 
     @SubscribeEvent
@@ -34,33 +41,34 @@ public class Main {
         }
         //Coinflip started
         else if (!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "coinflip")){
-            Commands.coinflipStart(event);
+            coinflipCommands.coinflipStart(event);
         }
         //Coinflip accepted
-        else if (!event.getAuthor().isBot() &&  cmd.startsWith(botPrefix+"accept")){
-            for (int i = 1; i < Commands.russianTag.length; i++) {
-                if(Author.equals(Commands.russianTag[i]))
-                    Commands.russianRoulleteAccept(event, i-1);
+        else if (!event.getAuthor().isBot() && cmd.startsWith(botPrefix+"accept")){
+            if(Author.equals(coinflipCommands.gameMembers[1].getMention()))
+                coinflipCommands.coinflipGame(event);
+            for (int i = 1; i < roulleteGame.GameMembers.length; i++) {
+                if(Author.equals(roulleteGame.GameMembers[i].getMention()))
+                   roulleteGame.Accept(event, i);
             }
-            if(Author.equals(Commands.coinflipOppTag))
-                Commands.coinflipGame(event);
         }
         else if (!event.getAuthor().isBot() && cmd.startsWith(botPrefix+"decline")){
-            
+            if(Author.equals(coinflipCommands.gameMembers[1].getMention()))
+                coinflipCommands.coinflipDecline(event);
         }
         else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix + "russianRoullete")){
-            Commands.russianRoulleteStart(event);
+            roulleteGame = new russianRoulleteGame(event);
         }
         else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix+"spin")){
-            for (int i = 0; i < Commands.russianTag.length; i++) {
-                if(Author.equals(Commands.russianTag[i]))
-                    Commands.russianRoulleteSpin(event, i);
+            for (int i = 0; i < roulleteGame.GameMembers.length; i++) {
+                if(Author.equals(roulleteGame.GameMembers[i].getMention()))
+                    roulleteGame.Spin(event, i);
             }
         }
         else if(!event.getAuthor().isBot() && cmd.startsWith(botPrefix+"shot")){
-            for (int i = 0; i < Commands.russianTag.length; i++) {
-                if(Author.equals(Commands.russianTag[i]))
-                    Commands.russianRoulleteShot(event, i);
+            for (int i = 0; i < roulleteGame.GameMembers.length; i++) {
+                if(Author.equals(roulleteGame.GameMembers[i].getMention()))
+                    roulleteGame.Shot(event, i);
             }
         }
         //File upload
