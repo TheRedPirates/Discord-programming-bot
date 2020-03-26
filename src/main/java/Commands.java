@@ -2,6 +2,128 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class Commands{
+<<<<<<< HEAD
+=======
+    public static String coinflipOppTag;
+    public static String coinflipSndTag;
+    public static String russianTag[];
+    public static boolean russianRoulleteAccept[];
+    public static boolean russianRoulleteAlive[];
+    public static int aliveCount;
+    public static int Queue = 0;
+    public static int bulletInChamber = (int) (Math.random() * 5 + 1);
+    public static int coinflipCount = 0;
+    public static void coinflipStart(MessageReceivedEvent event){
+        coinflipOppTag = event.getMessage().getMentionedUsers().get(0).getAsMention();
+        coinflipSndTag = event.getAuthor().getAsMention();
+        event.getChannel().sendMessage("The user: "+coinflipSndTag+" has challenged user:"+coinflipOppTag+ " for a coinflip game, to accept write 'accept'").queue();
+    }
+    public static void coinflipGame(MessageReceivedEvent event) {
+        if(Math.random()>0.5) 
+            event.getChannel().sendMessage(coinflipOppTag +" Is the winner!!!!!").queue();
+        else
+            event.getChannel().sendMessage(coinflipSndTag +" Is the winner!!!!!").queue();
+        
+    }
+    public static void coinflipDecline(MessageReceivedEvent event) {
+        event.getChannel().sendMessage(coinflipOppTag+" has declined the coinflip invitation").queue();
+        coinflipOppTag = "";
+        coinflipSndTag = "";
+    }
+    public static void russianRoulleteStart(MessageReceivedEvent event){
+        russianRoulleteAlive = new boolean[event.getMessage().getMentionedUsers().size()+1];
+        aliveCount = event.getMessage().getMentionedUsers().size()+1;
+        for (int i = 0; i < russianRoulleteAlive.length; i++) {
+            russianRoulleteAlive[i] = true;
+        }
+        russianRoulleteAccept = new boolean[event.getMessage().getMentionedUsers().size()];
+        russianTag = new String[event.getMessage().getMentionedUsers().size()+1];
+        russianTag[0] = event.getAuthor().getAsMention();
+        event.getChannel().sendMessage("The user: "+russianTag[0]+" has challanged the users:").queue();
+        for (int i = 1; i < russianTag.length; i++) {
+            russianTag[i] = event.getMessage().getMentionedUsers().get(i-1).getAsMention();
+            event.getChannel().sendMessage(russianTag[i]).queue();
+        }
+        event.getChannel().sendMessage("For a russian Roullete game, to accept write 'accept' ").queue();
+    }
+    public static void russianRoulleteAccept(MessageReceivedEvent event,int i){
+           if(event.getAuthor().getAsMention().equals(russianTag[i + 1])){
+                russianRoulleteAccept[i] = true;
+                event.getChannel().sendMessage(russianTag[i + 1]+" Has successfully accepted the game").queue();
+           }  
+    }
+    public static void russianRoulleteSpin(MessageReceivedEvent event, int place){
+        if(russianRoulleteAlive[place] == false){
+            event.getChannel().sendMessage(russianTag[place]+" , You are dead!").queue();
+            return;
+        }
+        for (int i = 0; i < russianRoulleteAccept.length; i++) {
+            if(russianRoulleteAccept[i] == false){
+                event.getChannel().sendMessage("Not everyone accepted the invite").queue();
+                return;
+            }
+        }
+        if(russianTag[Queue].equals(event.getAuthor().getAsMention())){
+            bulletInChamber = (int) (Math.random() * 5 + 1);
+            event.getChannel().sendMessage("You spinned the gun successfully").queue();
+            return;
+        }
+        event.getChannel().sendMessage("Its not you turn, Its: "+russianTag[Queue]+"'s turn").queue();
+    }
+    public static void russianRoulleteShot(MessageReceivedEvent event, int place){
+        if(Queue >= aliveCount)
+                Queue = 0;
+        if(russianRoulleteAlive[place] == false){
+            event.getChannel().sendMessage(russianTag[place]+" , You are dead!").queue();
+            return;
+        }
+        for (int i = 0; i < russianRoulleteAccept.length; i++) {
+            if(russianRoulleteAccept[i] == false){
+                event.getChannel().sendMessage("Not everyone accepted the invite").queue();
+                return;
+            }
+        }
+        if(russianTag[Queue].equals(event.getAuthor().getAsMention())){
+            if(bulletInChamber == 0){
+                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + " Just shot himself, ").queue();
+                    bulletInChamber = (int) (Math.random() * 5 + 1);
+                    aliveCount--;
+                    for (int i = 0; i < russianTag.length; i++) {
+                        if(russianTag[i].equals(event.getAuthor().getAsMention()))
+                            russianRoulleteAlive[i] = false;
+                    }
+                    event.getChannel().sendMessage("Remaining players are: ").queue();
+                     for (int i = 0; i < russianRoulleteAlive.length; i++) {
+                        if(russianRoulleteAlive[i] == true){
+                            event.getChannel().sendMessage(russianTag[i]).queue();
+                            if(aliveCount == 1) {
+                                event.getChannel().sendMessage(russianTag[i]+" Is the winner").queue();
+                                for (int j = 0; j < russianTag.length; j++) {
+                                    russianTag[i] = "";
+                                }
+
+                                for (int k = 0; k < russianRoulleteAccept.length; k++) {
+                                    russianRoulleteAccept[i] = false;
+                                }
+                                return;
+                            }
+                        }
+                     }
+                    Queue++;
+                    if(russianRoulleteAlive[Queue-1]==false)
+                        Queue++;
+                    return;
+            }
+            event.getChannel().sendMessage("You tried to shot but there was no bullet in the chamber, try again").queue();
+            Queue++;
+            if(russianRoulleteAlive[Queue-1]==false)
+                Queue++;
+            bulletInChamber--;
+            return;
+        }
+        event.getChannel().sendMessage("Its not you turn, Its: "+russianTag[Queue]+"'s turn").queue();
+    }
+>>>>>>> 287b36403fdf051831b6a2911090f7a98059747f
     public static void fileUpload(MessageReceivedEvent event){
         Message.Attachment attachment =  event.getMessage().getAttachments().get(0);
         event.getMessage().delete().queue();

@@ -22,6 +22,7 @@ public class Main {
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new Main())
                 .build();
+<<<<<<< HEAD
                 
         client.getPresence().setActivity(Activity.playing("with the pirates☠️🛠️"));
 
@@ -29,6 +30,8 @@ public class Main {
         System.out.println(SyntaxCommands.printClass());
 
         DatabaseAccess dataAccess = new DatabaseAccess();
+=======
+>>>>>>> 287b36403fdf051831b6a2911090f7a98059747f
     }
 
     @SubscribeEvent
