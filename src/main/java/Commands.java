@@ -2,8 +2,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class Commands{
-<<<<<<< HEAD
-=======
     public static String coinflipOppTag;
     public static String coinflipSndTag;
     public static String russianTag[];
@@ -123,7 +121,7 @@ public class Commands{
         }
         event.getChannel().sendMessage("Its not you turn, Its: "+russianTag[Queue]+"'s turn").queue();
     }
->>>>>>> 287b36403fdf051831b6a2911090f7a98059747f
+
     public static void fileUpload(MessageReceivedEvent event){
         Message.Attachment attachment =  event.getMessage().getAttachments().get(0);
         event.getMessage().delete().queue();
